@@ -1,0 +1,86 @@
+/* login */
+
+.principal {
+    display: flex;
+    align-items: center;
+}
+
+.left, .right {
+    flex: 1;
+    padding: 10px;
+}
+
+.left {
+    text-align: center;
+}
+
+.right {
+    text-align: center;
+}
+
+.left h3, .right h3 {
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.left button, .right button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.left button:hover, .right button:hover {
+    background-color: #0056b3;
+}
+
+.right form {
+    margin-top: 10px;
+}
+
+
+/* signup */
+
+.signup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+}
+
+.signup-title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.signup-form {
+    text-align: center;
+}
+.signup-form input {
+width: 100%;
+margin: 10px;
+}
+
+
+button {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+      margin-top: 20px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.signup-btn {
+        background-color: green;
+
+}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="signup">
+    <h2 class="signup-title">Inscription</h2>
+    {% if form.errors %}
+        {{ form.errors }}
+    {% endif %}
+    <form method="post" class="signup-form">
+        {{ form.as_p }}
+        {% csrf_token %}
+        <button type="submit" class="signup-btn">S’inscrire</button>
+        <button onclick="window.location.href='{% url 'login' %}'" >Retourner</button>
+    </form>
+    </div>
+{% endblock content %}

@@ -1,0 +1,28 @@
+{% load static %}
+
+<html>
+<head>
+    <title>LITRevu</title>
+        <link rel="stylesheet" href="{% static 'authentication/style.css' %}">
+        <link rel="stylesheet" href="{% static 'litrevu/style.css' %}">
+
+</head>
+<body>
+<nav class="navbar">
+    <h1>LITRevu</h1>
+    <div>
+    <a href="#">Flux</a>
+    <a href="#">Posts</a>
+    <a href="#">Abonnements</a>
+    {% if user.is_authenticated %}
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="logout-button">Se déconnecter</button>
+    </form>
+    {% endif %}
+            </div>
+
+</nav>
+{% block content %}{% endblock content %}
+</body>
+</html>

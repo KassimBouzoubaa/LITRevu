@@ -1,0 +1,33 @@
+
+.navbar {
+    background-color: #333;
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar div {
+    display: flex;
+    align-items: center;
+}
+
+.navbar h1 {
+color: white;
+}
+ .navbar a, .logout-button {
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+.navbar a:hover, .logout-button:hover {
+    text-decoration: underline;
+}
+
+
