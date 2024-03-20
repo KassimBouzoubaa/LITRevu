@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card my-4">
+                <div class="card-header">
+                    <h2 class="card-title">{{ review.headline }}</h2>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item">Time created: {{ review.time_created }}</li>
+                        <li class="list-group-item">Description: {{ review.body }}</li>
+                        <li class="list-group-item">Rating: {{ review.rating }}</li>
+                    </ul>
+                </div>
+                {% if user.is_authenticated and user == review.user %}
+                <div class="card-footer">
+                    <a href="{% url 'review-change' review.id %}" class="btn btn-primary mr-2">Modifier</a>
+                    <a href="{% url 'review-delete' review.id %}" class="btn btn-danger">Supprimer</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

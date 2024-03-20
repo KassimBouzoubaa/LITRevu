@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card my-4">
+                <div class="card-header">
+                    <h1 class="card-title">Supprimer le ticket</h1>
+                </div>
+                <div class="card-body">
+                    <p>Etes-vous sûr de vouloir supprimer cette review : <strong>{{ ticket.title }}</strong> ?</p>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Supprimer</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
