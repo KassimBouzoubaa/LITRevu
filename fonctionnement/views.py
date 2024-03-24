@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 
 
+
 # ----- TICKET ----- #
 @login_required
 def ticket_create(request):
@@ -83,19 +84,40 @@ def ticket_detail(request, id):
 @login_required
 def review_create(request):
     if request.method == "POST":
-        form = ReviewForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect("fonctionnement/flux.html")
+        formTicket = TicketForm(request.POST)
+        formReview = ReviewForm(request.POST)
+        photo_form = PhotoForm(request.POST, request.FILES)
+        if formReview.is_valid() and formTicket.is_valid():
+
+
+            photo = photo_form.save(commit=False)
+            photo.uploader = request.user
+            photo.save()
+
+            # Ensuite, enregistrez le ticket en référençant la photo nouvellement créée
+            ticket = formTicket.save(commit=False)
+            ticket.user = request.user
+            ticket.image = photo
+            ticket.save()
+
+            review = formReview.save(commit=False)
+            review.user = request.user
+            review.ticket = ticket
+            review.save()
+
+            return redirect("flux")
 
     else:
-        form = ReviewForm()
+        formReview = ReviewForm()
+        formTicket = TicketForm()
+        photo_form = PhotoForm()
 
     return render(
         request,
         template_name="fonctionnement/review_create.html",
-        context={"form": form},
+        context={"formReview": formReview, "formTicket": formTicket, "photo_form": photo_form},
     )
+
 
 @login_required
 def review_response_create(request, id):
@@ -128,7 +150,7 @@ def review_update(request, id):
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
             form.save()
-            return redirect("fonctionnement/flux.html")
+            return redirect("flux")
     else:
         form = ReviewForm(instance=review)
 
@@ -162,3 +184,7 @@ def review_detail(request, id):
         template_name="fonctionnement/review_detail.html",
         context={"review": review},
     )
+
+@login_required
+def flux_detail(request):
+    return render(request, "fonctionnement/flux.html")

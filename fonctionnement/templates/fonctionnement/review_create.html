@@ -1,37 +1,29 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
-{% if ticket %}
-    <h2>{{ ticket.title }}</h2>
-
-    <ul>
-        <li>Description : {{ ticket.description }}</li>
-        <li>Time created : {{ ticket.time_created }}</li>
-    </ul>
-{% endif %}
-
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card">
-                <div class="card-header">Créer une critique</div>
-
-                <div class="card-body">
-                    <form method="post">
-                        {% csrf_token %}
-                        {% for field in form %}
-                        <div class="form-group">
-                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                            {{ field }}
-                        </div>
-                        {% endfor %}
-                        <button type="submit" class="btn btn-primary">Soumettre</button>
-                    </form>
-                </div>
-            </div>
-        </div>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6">
+        <h2>Create a Review</h2>
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <hr>
+          <div class="form-group">
+            <h3>Create a Ticket</h3>
+            {{ formTicket }}
+          </div>
+          <div class="form-group">
+            {{ photo_form }}
+          </div>
+          <hr>
+          <div class="form-group">
+            <h3>Review</h3>
+            {{ formReview }}
+          </div>
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+      </div>
     </div>
-</div>
+  </div>
 {% endblock %}
-
 

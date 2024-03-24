@@ -27,6 +27,7 @@ urlpatterns = [
     path("", authentication.views.LoginPageView.as_view(), name="login"),
     path("logout/", authentication.views.logout_user, name="logout"),
     path("signup/", authentication.views.signup_page, name="signup"),
+    path("flux/", fonctionnement.views.flux_detail, name="flux"),
     path("ticket/add/", fonctionnement.views.ticket_create, name="ticket-create"),
     path("ticket/<int:id>/", fonctionnement.views.ticket_detail, name="ticket-detail"),
     path(

@@ -41,7 +41,9 @@ INSTALLED_APPS = [
     "social",
     "fonctionnement",
     'bootstrap4',
+    'crispy_forms',
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -120,3 +122,4 @@ AUTH_USER_MODEL = "authentication.User"
 LOGIN_REDIRECT_URL = "login"
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
