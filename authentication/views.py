@@ -32,7 +32,7 @@ class LoginPageView(View):
             )
             if user is not None:
                 login(request, user)
-                return redirect("login")
+                return redirect("flux")
         message = "Identifiants invalides."
         return render(
             request, self.template_name, context={"form": form, "message": message}

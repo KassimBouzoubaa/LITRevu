@@ -3,27 +3,33 @@
 <html>
 <head>
     <title>LITRevu</title>
-        <link rel="stylesheet" href="{% static 'authentication/style.css' %}">
-        <link rel="stylesheet" href="{% static 'litrevu/style.css' %}">
- {% load bootstrap5 %}
-  {% bootstrap_css %}
-  {% bootstrap_javascript %}
+    <link rel="stylesheet" href="{% static 'authentication/style.css' %}">
+    <link rel="stylesheet" href="{% static 'litrevu/style.css' %}">
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 </head>
 <body>
 <nav class="navbar">
     <h1>LITRevu</h1>
     <div>
-    <a href="#">Flux</a>
-    <a href="#">Posts</a>
-    <a href="#">Abonnements</a>
-    {% if user.is_authenticated %}
-    <form action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
-        <button type="submit" class="logout-button">Se déconnecter</button>
-    </form>
-    {% endif %}
-            </div>
-
+        <ul class="nav justify-content-end">
+            <li class="nav-item">
+                <a href="{% url 'flux' %}">Flux</a>
+            </li>
+            <li class="nav-item">
+                <a href="#">Posts</a>
+            </li>
+            <li class="nav-item">
+                <a href="#">Abonnements</a>
+            </li>
+            <li class="nav-item">
+                {% if user.is_authenticated %}
+                <a href="{% url 'logout' %}" class="logout-link">Se déconnecter</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
 </nav>
 {% block content %}{% endblock content %}
 </body>
