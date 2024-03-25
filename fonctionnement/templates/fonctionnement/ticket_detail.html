@@ -11,9 +11,8 @@
                 <div class="card-body">
                     <ul class="list-group">
                         <li class="list-group-item">Description: {{ ticket.description }}</li>
-                        <li class="list-group-item">Time created: {{ ticket.time_created }}</li>
+                        <li class="list-group-item">Crée le: {{ ticket.time_created }}</li>
                     </ul>
-                    <!-- Image avec classe CSS -->
                     <img src="{{ ticket.image.image.url }}" class="img-fluid rounded" alt="Image du ticket">
                 </div>
                 <div class="card-footer">

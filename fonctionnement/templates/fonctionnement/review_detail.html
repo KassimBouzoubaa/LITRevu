@@ -10,14 +10,14 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
-                        <li class="list-group-item">Time created: {{ review.time_created }}</li>
+                        <li class="list-group-item">Crée le: {{ review.time_created }}</li>
                         <li class="list-group-item">Description: {{ review.body }}</li>
-                        <li class="list-group-item">Rating: {{ review.rating }}</li>
+                        <li class="list-group-item">Note: {{ review.rating }}/5</li>
                     </ul>
                 </div>
                 {% if user.is_authenticated and user == review.user %}
                 <div class="card-footer">
-                    <a href="{% url 'review-change' review.id %}" class="btn btn-primary mr-2">Modifier</a>
+                    <a href="{% url 'review-update' review.id %}" class="btn btn-primary mr-2">Modifier</a>
                     <a href="{% url 'review-delete' review.id %}" class="btn btn-danger">Supprimer</a>
                 </div>
                 {% endif %}

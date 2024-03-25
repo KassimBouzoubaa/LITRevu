@@ -1,29 +1,52 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="container">
+<div class="container">
     <div class="row">
-      <div class="col-md-6">
-        <h2>Create a Review</h2>
-        <form method="post" enctype="multipart/form-data">
-          {% csrf_token %}
-          <hr>
-          <div class="form-group">
-            <h3>Create a Ticket</h3>
-            {{ formTicket }}
-          </div>
-          <div class="form-group">
-            {{ photo_form }}
-          </div>
-          <hr>
-          <div class="form-group">
-            <h3>Review</h3>
-            {{ formReview }}
-          </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
-      </div>
+        <div class="col-md-6">
+            <h2>Création de la review</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <hr>
+                <div class="form-group">
+                    <label for="{{ formTicket.title.id_for_label }}" class="form-label">Titre</label>
+                    <input type="text" class="form-control" id="{{ formTicket.title.id_for_label }}"
+                           name="{{ formTicket.title.name }}" placeholder="Entrer un titre">
+                    <label for="{{ formTicket.description.id_for_label }}" class="form-label">Description</label>
+                    <textarea class="form-control" id="{{ formTicket.description.id_for_label }}"
+                              name="{{ formTicket.description.name }}" rows="4"
+                              placeholder="Entrer une description"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="{{ photo_form.image.id_for_label }}" class="form-label">Télécharger l'image</label>
+                    <input type="file" class="form-control" id="{{ photo_form.image.id_for_label }}"
+                           name="{{ photo_form.image.name }}">
+                </div>
+                <hr>
+                <div class="form-group">
+                    <h3>Review</h3>
+                    <label for="{{ formReview.headline.id_for_label }}" class="form-label">Titre</label>
+                    <input type="text" class="form-control" id="{{ formReview.headline.id_for_label }}"
+                           name="{{ formReview.headline.name }}">
+                    <label for="{{ formReview.rating.id_for_label }}" class="form-label">Note</label>
+                    <div class="d-flex">
+                        {% for choice in formReview.rating.field.choices %}
+                        <div class="form-check form-check-inline mx-2">
+                            <input class="form-check-input" type="radio" name="{{ formReview.rating.name }}"
+                                   id="choice{{ forloop.counter }}" value="{{ choice.0 }}">
+                            <label class="form-check-label" for="choice{{ forloop.counter }}">{{ choice.1 }}</label>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <label for="{{ formReview.body.id_for_label }}" class="form-label">Commentaire</label>
+                    <textarea class="form-control" id="{{ formReview.body.id_for_label }}"
+                              name="{{ formReview.body.name }}" rows="4"></textarea>
+                </div>
+                <br>
+                <button type="submit" class="btn btn-primary">Envoyer</button>
+            </form>
+        </div>
     </div>
-  </div>
+</div>
 {% endblock %}
 

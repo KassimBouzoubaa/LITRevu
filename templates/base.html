@@ -5,8 +5,9 @@
     <title>LITRevu</title>
         <link rel="stylesheet" href="{% static 'authentication/style.css' %}">
         <link rel="stylesheet" href="{% static 'litrevu/style.css' %}">
- <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+ {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
 </head>
 <body>
 <nav class="navbar">
