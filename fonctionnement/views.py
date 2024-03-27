@@ -32,10 +32,14 @@ def ticket_create(request):
         ticket_form = TicketForm()
         photo_form = PhotoForm()
 
+    context = {
+        "ticket_form": ticket_form,
+        "photo_form": photo_form
+    }
     return render(
         request,
         template_name="fonctionnement/ticket_create.html",
-        context={"ticket_form": ticket_form, "photo_form": photo_form},
+        context=context,
     )
 
 
@@ -64,7 +68,12 @@ def ticket_update(request, id):
         ticket_form = TicketForm(instance=ticket)
         photo_form = PhotoForm(instance=photo)
 
-    return render(request, "fonctionnement/ticket_update.html", {"ticket_form": ticket_form, "photo_form": photo_form})
+    context = {
+        "ticket_form": ticket_form,
+        "photo_form": photo_form
+    }
+
+    return render(request, "fonctionnement/ticket_update.html", context)
 
 
 @login_required
@@ -126,14 +135,16 @@ def review_create(request):
         formTicket = TicketForm()
         photo_form = PhotoForm()
 
+    context = {
+        "formReview": formReview,
+        "formTicket": formTicket,
+        "photo_form": photo_form,
+    }
+
     return render(
         request,
         template_name="fonctionnement/review_create.html",
-        context={
-            "formReview": formReview,
-            "formTicket": formTicket,
-            "photo_form": photo_form,
-        },
+        context=context
     )
 
 
@@ -150,10 +161,12 @@ def review_response_create(request, id):
     else:
         form = ReviewForm()
 
+    context = {"form": form, "ticket": ticket}
+
     return render(
         request,
         template_name="fonctionnement/review_create.html",
-        context={"form": form, "ticket": ticket},
+        context=context,
     )
 
 
