@@ -29,5 +29,12 @@ color: white;
 .navbar a:hover, .logout-button:hover {
     text-decoration: underline;
 }
+ .btn-custom {
+        color: black;
+        border-color: black;
+    }
+    .btn-custom:hover {
+        color: white;
+    }
 
 

@@ -4,10 +4,18 @@
 <div class="container">
     <div class="row">
         <div class="col-md-6">
-            <h2>Création de la review</h2>
+            <h2 class="text-center">Créer une critique</h2>
             <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <hr>
+                <!-- Si la review est en réponse à un ticket, afficher le ticket -->
+
+                {% if ticket %}
+                {% include 'fonctionnement/ticket_detail.html' with ticket=ticket response=True %}
+                {% else %}
+
+                <!-- Sinon créer le ticket -->
+
                 <div class="form-group">
                     <label for="{{ formTicket.title.id_for_label }}" class="form-label">Titre</label>
                     <input type="text" class="form-control" id="{{ formTicket.title.id_for_label }}"
@@ -22,9 +30,15 @@
                     <input type="file" class="form-control" id="{{ photo_form.image.id_for_label }}"
                            name="{{ photo_form.image.name }}">
                 </div>
+
+                {% endif %}
+
                 <hr>
+
+                <!-- Création de la review -->
+
                 <div class="form-group">
-                    <h3>Review</h3>
+                    <h3 class="text-center">Review</h3>
                     <label for="{{ formReview.headline.id_for_label }}" class="form-label">Titre</label>
                     <input type="text" class="form-control" id="{{ formReview.headline.id_for_label }}"
                            name="{{ formReview.headline.name }}">

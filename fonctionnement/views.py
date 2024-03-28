@@ -1,8 +1,11 @@
+from itertools import chain
+
 from django.shortcuts import render, redirect, get_object_or_404
 
 from fonctionnement.forms import TicketForm, ReviewForm, PhotoForm
 from fonctionnement.models import Ticket, Review, Photo
 from django.contrib.auth.decorators import login_required
+from django.db.models import CharField, Value
 
 
 # ----- TICKET ----- #
@@ -32,10 +35,7 @@ def ticket_create(request):
         ticket_form = TicketForm()
         photo_form = PhotoForm()
 
-    context = {
-        "ticket_form": ticket_form,
-        "photo_form": photo_form
-    }
+    context = {"ticket_form": ticket_form, "photo_form": photo_form}
     return render(
         request,
         template_name="fonctionnement/ticket_create.html",
@@ -47,7 +47,6 @@ def ticket_create(request):
 def ticket_update(request, id):
     ticket = get_object_or_404(Ticket, id=id)
     photo = ticket.image  # Récupérer l'image associée au ticket
-
 
     if request.user != ticket.user:
         return render(
@@ -68,10 +67,7 @@ def ticket_update(request, id):
         ticket_form = TicketForm(instance=ticket)
         photo_form = PhotoForm(instance=photo)
 
-    context = {
-        "ticket_form": ticket_form,
-        "photo_form": photo_form
-    }
+    context = {"ticket_form": ticket_form, "photo_form": photo_form}
 
     return render(request, "fonctionnement/ticket_update.html", context)
 
@@ -142,9 +138,7 @@ def review_create(request):
     }
 
     return render(
-        request,
-        template_name="fonctionnement/review_create.html",
-        context=context
+        request, template_name="fonctionnement/review_create.html", context=context
     )
 
 
@@ -155,7 +149,10 @@ def review_response_create(request, id):
     if request.method == "POST":
         form = ReviewForm(request.POST)
         if form.is_valid():
-            form.save()
+            review = form.save(commit=False)
+            review.user = request.user
+            review.ticket = ticket
+            review.save()
             return redirect("flux")
 
     else:
@@ -230,5 +227,43 @@ def review_detail(request, id):
 
 
 @login_required
-def flux_detail(request):
-    return render(request, "fonctionnement/flux.html")
+def feed(request):
+    # Récupérer tous les avis
+    reviews = Review.objects.all()
+    # Ajouter une annotation au queryset de reviews pour indiquer le type de contenu
+    reviews = reviews.annotate(content_type=Value("REVIEW", CharField()))
+
+    # Récupérer tous les tickets
+    tickets = Ticket.objects.all()
+    # Ajouter une annotation au queryset de tickets pour indiquer le type de contenu
+    tickets = tickets.annotate(content_type=Value("TICKET", CharField()))
+
+    # Combiner les deux types de publications (avis et tickets)
+    posts = sorted(
+        chain(reviews, tickets), key=lambda post: post.time_created, reverse=True
+    )
+
+    return render(request, "fonctionnement/flux.html", {"posts": posts})
+
+
+@login_required
+def user_tickets_and_reviews(request):
+    # Récupérer tous les tickets de l'utilisateur connecté
+    user_tickets = Ticket.objects.filter(user=request.user)
+    user_tickets = user_tickets.annotate(content_type=Value("TICKET", CharField()))
+
+    # Récupérer tous les avis de l'utilisateur connecté
+    user_reviews = Review.objects.filter(user=request.user)
+    user_reviews = user_reviews.annotate(content_type=Value("REVIEW", CharField()))
+
+    posts = sorted(
+        chain(user_reviews, user_tickets),
+        key=lambda post: post.time_created,
+        reverse=True,
+    )
+
+    return render(
+        request,
+        "fonctionnement/user_tickets_and_reviews.html",
+        {"posts": posts, "from_posts": True},
+    )

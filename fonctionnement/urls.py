@@ -2,7 +2,8 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path("flux/", views.flux_detail, name="flux"),
+    path("flux/", views.feed, name="flux"),
+    path("user-posts/", views.user_tickets_and_reviews, name="user-posts"),
     path("ticket/add/", views.ticket_create, name="ticket-create"),
     path("ticket/<int:id>/", views.ticket_detail, name="ticket-detail"),
     path(

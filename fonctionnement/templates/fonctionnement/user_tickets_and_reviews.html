@@ -1,10 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="text-center mt-3">
-    <a href="{% url 'ticket-create' %}" class="btn btn-outline-dark btn-custom">Demander une critique</a>
-    <a href="{% url 'review-create' %}" class="btn btn-outline-dark btn-custom">Créer une critique</a>
-</div>
 
 {% for post in posts %}
 {% if post.content_type == 'TICKET' %}
@@ -13,4 +9,5 @@
 {% include 'fonctionnement/review_detail.html' with review=post %}
 {% endif %}
 {% endfor %}
+
 {% endblock %}

@@ -18,10 +18,10 @@
                 <a href="{% url 'flux' %}">Flux</a>
             </li>
             <li class="nav-item">
-                <a href="#">Posts</a>
+                <a href="{% url 'user-posts' %}">Posts</a>
             </li>
             <li class="nav-item">
-                <a href="#">Abonnements</a>
+                <a href="{% url 'follow_user' %}">Abonnements</a>
             </li>
             <li class="nav-item">
                 {% if user.is_authenticated %}

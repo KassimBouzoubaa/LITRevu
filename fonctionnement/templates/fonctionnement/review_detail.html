@@ -1,6 +1,3 @@
-{% extends 'base.html' %}
-
-{% block content %}
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
@@ -10,19 +7,24 @@
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
-                        <li class="list-group-item">Crée le: {{ review.time_created }}</li>
-                        <li class="list-group-item">Description: {{ review.body }}</li>
-                        <li class="list-group-item">Note: {{ review.rating }}/5</li>
+                        {% if user.is_authenticated and user == review.user %}
+                        <li class="list-group-item">Vous avez publié une critique</li>
+                        {% else %}
+                        <li class="list-group-item">{{ ticket.user.username }} a posté une critique</li>
+                        {% endif %}
+                        <li class="list-group-item">{{ review.time_created }}</li>
+                        <li class="list-group-item">{{ review.body }}</li>
+                        <li class="list-group-item">{{ review.rating }}/5</li>
                     </ul>
                 </div>
-                {% if user.is_authenticated and user == review.user %}
+                {% if user.is_authenticated and user == review.user and from_posts %}
                 <div class="card-footer">
-                    <a href="{% url 'review-update' review.id %}" class="btn btn-primary mr-2">Modifier</a>
-                    <a href="{% url 'review-delete' review.id %}" class="btn btn-danger">Supprimer</a>
+                    <a href="{% url 'review-update' review.id %}" class="btn btn-outline-primary mr-2">Modifier</a>
+                    <a href="{% url 'review-delete' review.id %}" class="btn btn-outline-danger">Supprimer</a>
                 </div>
                 {% endif %}
+
             </div>
         </div>
     </div>
 </div>
-{% endblock %}
