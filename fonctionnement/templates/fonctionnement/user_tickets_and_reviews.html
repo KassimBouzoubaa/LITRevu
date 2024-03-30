@@ -3,11 +3,11 @@
 {% block content %}
 
 {% for post in posts %}
-{% if post.content_type == 'TICKET' %}
-{% include 'fonctionnement/ticket_detail.html' with ticket=post %}
-{% elif post.content_type == 'REVIEW' %}
-{% include 'fonctionnement/review_detail.html' with review=post %}
-{% endif %}
+    {% if post.content_type == 'TICKET' %}
+        {% include 'fonctionnement/ticket_detail.html' with ticket=post %}
+    {% elif post.content_type == 'REVIEW' %}
+        {% include 'fonctionnement/review_detail.html' with review=post %}
+    {% endif %}
 {% endfor %}
 
 {% endblock %}

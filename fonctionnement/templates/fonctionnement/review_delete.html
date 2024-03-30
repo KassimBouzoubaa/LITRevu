@@ -6,14 +6,14 @@
         <div class="col-md-6">
             <div class="card my-4">
                 <div class="card-header">
-                    <h1 class="card-title">Supprimer le ticket</h1>
+                    <h1 class="card-title">Supprimer la review</h1>
                 </div>
                 <div class="card-body">
                     <p>Etes-vous sûr de vouloir supprimer cette review : <strong>{{ review.headline }}</strong> ?</p>
                     <form action="" method="post">
                         {% csrf_token %}
                         <button type="submit" class="btn btn-danger">Supprimer</button>
-                        <a href="{% url 'review-detail' id=review.id %}" class="btn btn-secondary">Retour</a>
+                        <a href="{% url 'user-posts'  %}" class="btn btn-secondary">Retour</a>
                     </form>
                 </div>
             </div>

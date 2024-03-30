@@ -37,8 +37,7 @@ def follow_user(request):
         "user_following": user_following,
         "following_by": following_by,
     }
-    print("User Following:", list(user_following.values()))
-    print("Following By:", list(following_by.values()))
+
     return render(request, "social/follow.html", context)
 
 

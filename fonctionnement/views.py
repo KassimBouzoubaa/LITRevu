@@ -9,8 +9,11 @@ from django.db.models import CharField, Value
 
 
 # ----- TICKET ----- #
+
+
 @login_required
 def ticket_create(request):
+    # Gestion de la création d'un ticket
     if request.method == "POST":
         ticket_form = TicketForm(request.POST)
         photo_form = PhotoForm(
@@ -18,12 +21,12 @@ def ticket_create(request):
         )  # Prend en charge les fichiers téléchargés
 
         if ticket_form.is_valid() and photo_form.is_valid():
-            # Enregistrez d'abord la photo
+            # Enregistrement de la photo
             photo = photo_form.save(commit=False)
             photo.uploader = request.user
             photo.save()
 
-            # Ensuite, enregistrez le ticket en référençant la photo nouvellement créée
+            # Enregistrement du ticket en référençant la photo nouvellement créée
             ticket = ticket_form.save(commit=False)
             ticket.user = request.user
             ticket.image = photo
@@ -45,6 +48,7 @@ def ticket_create(request):
 
 @login_required
 def ticket_update(request, id):
+    # Gestion de la mise à jour d'un ticket
     ticket = get_object_or_404(Ticket, id=id)
     photo = ticket.image  # Récupérer l'image associée au ticket
 
@@ -74,6 +78,7 @@ def ticket_update(request, id):
 
 @login_required
 def ticket_delete(request, id):
+    # Gestion de la suppression d'un ticket
     ticket = get_object_or_404(Ticket, id=id)
 
     if request.user != ticket.user:
@@ -93,6 +98,7 @@ def ticket_delete(request, id):
 
 @login_required
 def ticket_detail(request, id):
+    # Affichage des détails d'un ticket
     ticket = Ticket.objects.get(id=id)
     return render(
         request,
@@ -102,8 +108,11 @@ def ticket_detail(request, id):
 
 
 # ----- Review ----- #
+
+
 @login_required
 def review_create(request):
+    # Gestion de la création d'une critique
     if request.method == "POST":
         formTicket = TicketForm(request.POST)
         formReview = ReviewForm(request.POST)
@@ -113,7 +122,7 @@ def review_create(request):
             photo.uploader = request.user
             photo.save()
 
-            # Ensuite, enregistrez le ticket en référençant la photo nouvellement créée
+            # Enregistrement du ticket en référençant la photo nouvellement créée
             ticket = formTicket.save(commit=False)
             ticket.user = request.user
             ticket.image = photo
@@ -144,6 +153,7 @@ def review_create(request):
 
 @login_required
 def review_response_create(request, id):
+    # Gestion de la création d'une réponse à une critique
     ticket = Ticket.objects.get(id=id)
 
     if request.method == "POST":
@@ -169,6 +179,7 @@ def review_response_create(request, id):
 
 @login_required
 def review_update(request, id):
+    # Gestion de la mise à jour d'une critique
     review = get_object_or_404(Review, id=id)
 
     if request.user != review.user:
@@ -192,13 +203,10 @@ def review_update(request, id):
 
 @login_required
 def review_delete(request, id):
-    # Récupérer la critique à supprimer
+    # Gestion de la suppression d'une critique
     review = get_object_or_404(Review, id=id)
 
-    # Vérifier si l'utilisateur connecté est le propriétaire de la critique
     if request.user != review.user:
-        # Si ce n'est pas le cas, renvoyer une réponse d'erreur ou rediriger
-        # par exemple, vous pouvez renvoyer une réponse HTTP 403 Forbidden
         return render(
             request,
             "error.html",
@@ -207,17 +215,15 @@ def review_delete(request, id):
         )
 
     if request.method == "POST":
-        # Si la méthode est POST, supprimer la critique de la base de données
         review.delete()
-        # Rediriger vers une page de confirmation ou une autre vue
         return redirect("flux")
 
-    # Si la méthode n'est pas POST, rendre le template de confirmation de suppression
     return render(request, "fonctionnement/review_delete.html", {"review": review})
 
 
 @login_required
 def review_detail(request, id):
+    # Affichage des détails d'une critique
     review = Review.objects.get(id=id)
     return render(
         request,
@@ -228,17 +234,13 @@ def review_detail(request, id):
 
 @login_required
 def feed(request):
-    # Récupérer tous les avis
+    # Affichage du flux de publications
     reviews = Review.objects.all()
-    # Ajouter une annotation au queryset de reviews pour indiquer le type de contenu
     reviews = reviews.annotate(content_type=Value("REVIEW", CharField()))
 
-    # Récupérer tous les tickets
     tickets = Ticket.objects.all()
-    # Ajouter une annotation au queryset de tickets pour indiquer le type de contenu
     tickets = tickets.annotate(content_type=Value("TICKET", CharField()))
 
-    # Combiner les deux types de publications (avis et tickets)
     posts = sorted(
         chain(reviews, tickets), key=lambda post: post.time_created, reverse=True
     )
@@ -248,11 +250,10 @@ def feed(request):
 
 @login_required
 def user_tickets_and_reviews(request):
-    # Récupérer tous les tickets de l'utilisateur connecté
+    # Affichage des tickets et critiques de l'utilisateur connecté
     user_tickets = Ticket.objects.filter(user=request.user)
     user_tickets = user_tickets.annotate(content_type=Value("TICKET", CharField()))
 
-    # Récupérer tous les avis de l'utilisateur connecté
     user_reviews = Review.objects.filter(user=request.user)
     user_reviews = user_reviews.annotate(content_type=Value("REVIEW", CharField()))
 

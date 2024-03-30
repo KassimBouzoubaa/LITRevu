@@ -3,34 +3,25 @@
         <div class="col-md-8">
             <div class="card my-4">
                 <div class="card-header">
-                    <!-- Titre du ticket -->
                     <h2 class="card-title">{{ ticket.title }}</h2>
                 </div>
                 <div class="card-body">
                     <ul class="list-group">
-                        <!-- Affichage du propriétaire du ticket -->
                         {% if user.is_authenticated and user == ticket.user %}
                             <li class="list-group-item">Vous avez publié un ticket</li>
                         {% else %}
                             <li class="list-group-item">{{ ticket.user.username }} a demandé une critique</li>
                         {% endif %}
-                        <!-- Description du ticket -->
                         <li class="list-group-item">{{ ticket.description }}</li>
-                        <!-- Date de création du ticket -->
                         <li class="list-group-item">{{ ticket.time_created }}</li>
                     </ul>
-                    <!-- Affichage de l'image du ticket -->
                     <img src="{{ ticket.image.image.url }}" class="img-fluid rounded" alt="Image du ticket">
-                    <!-- Bouton pour créer une critique si l'utilisateur est authentifié, n'est pas le créateur du ticket
-                         et n'a pas encore répondu au ticket -->
                     {% if user.is_authenticated and user != ticket.user and not response %}
                         <a href="{% url 'review-response-create' ticket.id %}" class="btn btn-outline-dark btn-custom mt-2">Créer une critique</a>
                     {% endif %}
                 </div>
                 {% if user.is_authenticated and user == ticket.user and from_posts %}
                     <div class="card-footer">
-                        <!-- Affichage des boutons "Modifier" et "Supprimer" uniquement si from_posts est True et
-                             que le créateur du ticket est bien l'utilisateur connecté -->
                         <a href="{% url 'ticket-update' ticket.id %}" class="btn btn-outline-primary">Modifier</a>
                         <a href="{% url 'ticket-delete' ticket.id %}" class="btn btn-outline-danger">Supprimer</a>
                     </div>
